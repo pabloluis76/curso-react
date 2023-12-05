@@ -33,14 +33,17 @@ function App() {
 
   const updateBoard = (index) => {
     if (board[index] || winner) return //si ya hay un valor en el cuadro no se hace nada
+
     //se hace una copia para evitar moficar el estado original
     const newBoard = [...board]
     //actualizar el valor del cuadro
     newBoard[index] = turn
     setBoard(newBoard)
+
     //cambiar el turno
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
+
     //guardar en el local storage
     saveGameToStorage({
       board: newBoard,
@@ -56,7 +59,7 @@ function App() {
       setWinner(false)
     }
   }
-
+  //codigo html que se va a renderizar
   return (
     <main className='board'>
       <h1>Tic tac toe</h1>
@@ -90,4 +93,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
