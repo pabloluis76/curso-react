@@ -1,30 +1,49 @@
+import { useCart } from '../hooks/useCart.js'
 import './Products.css'
-import { AddToCartIcon } from './icon.jsx'
+import { AddToCartIcon, RemoveFromCartIcon } from './icon.jsx'
 
+
+// eslint-disable-next-line react/prop-types
 export function Products({ products }) {
+    const { addToCart, cart, removeFromCart } = useCart()
+
+    const checkProductInCart = product => {
+        return cart.some(item => item.id === product.id)
+    }
     return (
         <main className='products'>
             <ul>
-                {products.map(product => (
-                    <li key={product.id}>
-                        <img
-                            src={product.thumbnail}
-                            alt={product.title}
-                        />
-                        <div>
-                            <strong>{product.title}</strong>-${product.price}
-                        </div>
-                        <div>
-                            <button>
-                                <AddToCartIcon />
-                            </button>
-                        </div>
-                    </li>
-                ))}
-                <li>
+                {products.map(product => {
+                    const isProductInCart = checkProductInCart(product)
 
-                </li>
-            </ul>
-        </main>
+                    return (
+                        <li key={product.id}>
+                            <img
+                                src={product.thumbnail}
+                                alt={product.title}
+                            />
+                            <div>
+                                <strong>{product.title}</strong> - ${product.price}
+                            </div>
+                            <div>
+                                <button
+                                    style={{ backgroundColor: isProductInCart ? 'red' : '#09f' }} onClick={() => {
+                                        isProductInCart
+                                            ? removeFromCart(product)
+                                            : addToCart(product)
+                                    }}
+                                >
+                                    {
+                                        isProductInCart
+                                            ? <RemoveFromCartIcon />
+                                            : <AddToCartIcon />
+                                    }
+                                </button>
+                            </div>
+                        </li>
+                    )
+                })}
+            </ul >
+        </main >
     )
 }
